@@ -1,15 +1,19 @@
 package mdsouza5.hw7and8crudoperation;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.ContactsContract;
+import android.util.Log;
 
 /**
  * Created by mdsouza on 4/6/18.
  */
 
 public class SqlHelper extends SQLiteOpenHelper {
+
+    private static final String LOG_TAG = "CRUD BOOK";
 
     //Assign Database Name
     private static final String DATABASE_NAME = "BOOKDB";
@@ -52,5 +56,27 @@ public class SqlHelper extends SQLiteOpenHelper {
             sqLiteDatabase.execSQL(DROP_TABLE);
             onCreate(sqLiteDatabase);
         }
+    }
+
+    public boolean insertBooks(Book bookObj) {
+        boolean insertStatus = false;
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_BOOK_TITLE, bookObj.getBookName());
+        contentValues.put(COL_BOOK_AUTHOR, bookObj.getAuthorName());
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        insertStatus = db.insert(TABLE_NAME, null, contentValues) > 0;
+        db.close();
+
+        if (insertStatus == true) {
+            Log.d(LOG_TAG,"Insert Successful");
+        }
+        else
+        {
+            Log.d(LOG_TAG, "Insert Unsuccessful");
+        }
+
+        return insertStatus;
     }
 }
