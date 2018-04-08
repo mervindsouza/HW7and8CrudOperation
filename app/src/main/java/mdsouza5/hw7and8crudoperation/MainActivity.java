@@ -2,7 +2,9 @@ package mdsouza5.hw7and8crudoperation;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
+import java.nio.file.FileSystemNotFoundException;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -10,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
     //Logcat Default;
     private static final String LOG_TAG = "BOOKS CRUD";
 
-    int i=0;
+    int i = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         db.InsertBooks(new Book("Programming Android", "Wallace Jackson"));
         db.InsertBooks(new Book("Hello, Android", "Wallace Jackson"));
 
-        //
+        //Get All Books Records
         List<Book> bookList = db.GetAllBooks();
         for (Book bookDetails :
                 bookList) {
@@ -32,7 +34,9 @@ public class MainActivity extends AppCompatActivity {
             i++;
         }
 
-
+        //Get the Matching Row Id and User Id for a passed reference
+        int j = db.UpdateBook(bookList.get(0));
+        Log.d("UPDATE BOOK ROW Num", String.valueOf(j));
     }
 }
 

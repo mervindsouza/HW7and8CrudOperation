@@ -84,9 +84,9 @@ public class SqlHelper extends SQLiteOpenHelper {
 
     public List<Book> GetAllBooks() {
         List<Book> bookList = new ArrayList<>();
-        String GET_AL_BOOKS_QUERY = String.format("Select * from %s", TABLE_NAME);
+        String GET_ALL_BOOKS_QUERY = String.format("Select * from %s", TABLE_NAME);
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery(GET_AL_BOOKS_QUERY, null);
+        Cursor cursor = sqLiteDatabase.rawQuery(GET_ALL_BOOKS_QUERY, null);
         try {
             if (cursor.moveToFirst()) {
                 do {
@@ -104,7 +104,26 @@ public class SqlHelper extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
-
         return bookList;
+    }
+
+    public Integer UpdateBook(Book book) {
+        int rowNumToReturn = 0;
+        String GET_ROW_ID_QUERY = String.format("Select %s from %s where %s=? limit 1", COL_BOOK_ID, TABLE_NAME, COL_BOOK_AUTHOR);
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery(GET_ROW_ID_QUERY, new String[]{book.authorName});
+        try {
+            if(cursor.moveToFirst()){
+                do {
+                    rowNumToReturn = cursor.getInt(cursor.getColumnIndex(COL_BOOK_ID));
+                }while(cursor.moveToNext());
+            }
+
+        } catch (Exception cursorEx) {
+            Log.d("UPDATE BOOKS ERROR", cursorEx.toString());
+        } finally {
+
+        }
+        return rowNumToReturn;
     }
 }
