@@ -113,17 +113,25 @@ public class SqlHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery(GET_ROW_ID_QUERY, new String[]{book.authorName});
         try {
-            if(cursor.moveToFirst()){
+            if (cursor.moveToFirst()) {
                 do {
                     rowNumToReturn = cursor.getInt(cursor.getColumnIndex(COL_BOOK_ID));
-                }while(cursor.moveToNext());
+                } while (cursor.moveToNext());
             }
 
         } catch (Exception cursorEx) {
             Log.d("UPDATE BOOKS ERROR", cursorEx.toString());
         } finally {
-
+            if (!cursor.isClosed() || cursor != null) {
+                cursor.close();
+            }
         }
         return rowNumToReturn;
+    }
+
+    public void DeleteBook(Book book) {
+        String DELETE_ROW_QUERY = String.format("Delete from %s where %s = \"%s\"", TABLE_NAME, COL_BOOK_AUTHOR, book.authorName);
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        sqLiteDatabase.execSQL(DELETE_ROW_QUERY);
     }
 }

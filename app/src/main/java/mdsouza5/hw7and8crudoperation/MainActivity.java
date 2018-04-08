@@ -37,6 +37,11 @@ public class MainActivity extends AppCompatActivity {
         //Get the Matching Row Id and User Id for a passed reference
         int j = db.UpdateBook(bookList.get(0));
         Log.d("UPDATE BOOK ROW Num", String.valueOf(j));
+
+        //Delete the Matching Book Record for a passed reference
+        db.DeleteBook(bookList.get(0));
+
+        db.GetAllBooks();
     }
 }
 
