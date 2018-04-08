@@ -2,10 +2,14 @@ package mdsouza5.hw7and8crudoperation;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.ContactsContract;
 import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by mdsouza on 4/6/18.
@@ -58,7 +62,7 @@ public class SqlHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean insertBooks(Book bookObj) {
+    public boolean InsertBooks(Book bookObj) {
         boolean insertStatus = false;
 
         ContentValues contentValues = new ContentValues();
@@ -70,13 +74,37 @@ public class SqlHelper extends SQLiteOpenHelper {
         db.close();
 
         if (insertStatus == true) {
-            Log.d(LOG_TAG,"Insert Successful");
-        }
-        else
-        {
+            Log.d(LOG_TAG, "Insert Successful");
+        } else {
             Log.d(LOG_TAG, "Insert Unsuccessful");
         }
 
         return insertStatus;
+    }
+
+    public List<Book> GetAllBooks() {
+        List<Book> bookList = new ArrayList<>();
+        String GET_AL_BOOKS_QUERY = String.format("Select * from %s", TABLE_NAME);
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery(GET_AL_BOOKS_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    Book bookObj = new Book();
+                    bookObj.bookName = cursor.getString(cursor.getColumnIndex(COL_BOOK_TITLE));
+                    bookObj.authorName = cursor.getString(cursor.getColumnIndex(COL_BOOK_AUTHOR));
+                    bookList.add(bookObj);
+
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception cursorEx) {
+            Log.d("GET ALL BOOKS ERROR", cursorEx.toString());
+        } finally {
+            if (!cursor.isClosed() || cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return bookList;
     }
 }
