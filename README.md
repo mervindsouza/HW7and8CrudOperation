@@ -2,6 +2,9 @@
 HW7and8CrudOperation is a simple demonstration of SQLite and creating a customer adapter to display views and make toast from spinner control.
 ##### Testing Device: Nexus 6P
 
+__Note:__
+UpdateBook and DeleteBook Fn are commented for demonstration purpose in MainActivity.java
+
 __Default View:__
 
 ![Default View](/images/Screenshot_20180410-094043.png)
