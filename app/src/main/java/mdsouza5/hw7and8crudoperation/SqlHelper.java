@@ -50,10 +50,10 @@ public class SqlHelper extends SQLiteOpenHelper {
     }
 
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String DROP_BOOKS_TABLE_CREATE = String.format("DROP TABLE IF EXISTS %s", TABLE_NAME);
+
         String CREATE_BOOKS_TABLE = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT, %s INTEGER)",
                 TABLE_NAME, COL_BOOK_ID, COL_BOOK_TITLE, COL_BOOK_AUTHOR, COL_BOOK_RATING);
-        sqLiteDatabase.execSQL(DROP_BOOKS_TABLE_CREATE);
+
         sqLiteDatabase.execSQL(CREATE_BOOKS_TABLE);
     }
 
@@ -67,7 +67,6 @@ public class SqlHelper extends SQLiteOpenHelper {
 
     public boolean InsertBooks(Book bookObj) {
         boolean insertStatus = false;
-
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_BOOK_TITLE, bookObj.getBookName());
         contentValues.put(COL_BOOK_AUTHOR, bookObj.getAuthorName());
@@ -97,7 +96,7 @@ public class SqlHelper extends SQLiteOpenHelper {
                     Book bookObj = new Book();
                     bookObj.bookName = cursor.getString(cursor.getColumnIndex(COL_BOOK_TITLE));
                     bookObj.authorName = cursor.getString(cursor.getColumnIndex(COL_BOOK_AUTHOR));
-                    bookObj.bookRating =  Integer.parseInt(cursor.getString(cursor.getColumnIndex(COL_BOOK_RATING)));
+                    bookObj.bookRating = Integer.parseInt(cursor.getString(cursor.getColumnIndex(COL_BOOK_RATING)));
                     bookList.add(bookObj);
 
                 } while (cursor.moveToNext());
