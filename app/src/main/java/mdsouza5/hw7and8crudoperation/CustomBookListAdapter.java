@@ -20,6 +20,7 @@ import java.util.List;
 public class CustomBookListAdapter extends ArrayAdapter<Book> {
     private Context bContext;
     private List<Book> bookList = new ArrayList<>();
+    //private static int i = 1;
 
     public CustomBookListAdapter(@NonNull Context context, @NonNull List<Book> objectsList) {
         super(context, 0, objectsList);
@@ -52,6 +53,10 @@ public class CustomBookListAdapter extends ArrayAdapter<Book> {
 
         TextView authorName = (TextView) listItem.findViewById(R.id.authorName);
         authorName.setText(presentBook.authorName);
+
+        TextView counter = (TextView)listItem.findViewById(R.id.itemNumber);
+        counter.setText(String.valueOf(position+1));
+        //i++;
 
         return listItem;
     }

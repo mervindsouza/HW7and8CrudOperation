@@ -13,7 +13,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     //Logcat Default;
     private static final String LOG_TAG = "BOOKS CRUD";
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity{
 
         //Get All Books Records
         final List<Book> bookList = db.GetAllBooks();
-        List<String> bookNames = new ArrayList<>();
+        final List<String> bookNames = new ArrayList<>();
         for (Book bookDetails :
                 bookList) {
             System.out.println(String.format("Value at %d, Record Details are : %s %s %d", i, bookDetails.bookName, bookDetails.authorName, bookDetails.bookRating));
@@ -65,12 +65,16 @@ public class MainActivity extends AppCompatActivity{
         stringArrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerControl.setAdapter(stringArrayAdapter);
 
-        spinnerControl.setOnItemSelectedListener(new Spinner.OnItemSelectedListener(){
+        spinnerControl.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String selectedBook = adapterView.getItemAtPosition(i).toString();
-                if(bookList.contains(selectedBook)){
-                    Toast.makeText(MainActivity.this, "Hello", Toast.LENGTH_LONG).show();
+                //Toast.makeText(adapterView.getContext(), selectedBook.toUpperCase(), Toast.LENGTH_LONG).show();
+                for (Book bookDetails :
+                        bookList) {
+                    if (bookDetails.bookName == selectedBook) {
+                        Toast.makeText(adapterView.getContext(), String.format("Author Name : %s :: Rating :: %s", bookDetails.authorName, bookDetails.bookRating), Toast.LENGTH_LONG).show();
+                    }
                 }
             }
 
