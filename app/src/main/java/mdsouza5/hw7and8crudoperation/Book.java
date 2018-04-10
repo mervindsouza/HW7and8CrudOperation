@@ -8,6 +8,7 @@ public class Book {
 
     String bookName;
     String authorName;
+    Integer bookRating;
 
     public Book() {
     }
@@ -15,6 +16,12 @@ public class Book {
     public Book(String bookName, String authorName) {
         this.bookName = bookName;
         this.authorName = authorName;
+    }
+
+    public Book(String bookName, String authorName, Integer bookRating) {
+        this.bookName = bookName;
+        this.authorName = authorName;
+        this.bookRating = bookRating;
     }
 
     public String getBookName() {
@@ -31,5 +38,13 @@ public class Book {
 
     public void setAuthorName(String authorName) {
         this.authorName = authorName;
+    }
+
+    public Integer getBookRating() {
+        return bookRating;
+    }
+
+    public void setBookRating(Integer bookRating) {
+        this.bookRating = bookRating;
     }
 }

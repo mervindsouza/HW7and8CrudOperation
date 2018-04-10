@@ -29,6 +29,7 @@ public class SqlHelper extends SQLiteOpenHelper {
     private static final String COL_BOOK_ID = "id";
     private static final String COL_BOOK_TITLE = "title";
     private static final String COL_BOOK_AUTHOR = "author";
+    private static final String COL_BOOK_RATING = "rating";
 
     //DML for onUpgrade()
     private static final String DROP_TABLE = String.format("DROP TABLE IF EXISTS %s", TABLE_NAME);
@@ -49,8 +50,10 @@ public class SqlHelper extends SQLiteOpenHelper {
     }
 
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String CREATE_BOOKS_TABLE = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT)",
-                TABLE_NAME, COL_BOOK_ID, COL_BOOK_TITLE, COL_BOOK_AUTHOR);
+        String DROP_BOOKS_TABLE_CREATE = String.format("DROP TABLE IF EXISTS %s", TABLE_NAME);
+        String CREATE_BOOKS_TABLE = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT, %s TEXT, %s INTEGER)",
+                TABLE_NAME, COL_BOOK_ID, COL_BOOK_TITLE, COL_BOOK_AUTHOR, COL_BOOK_RATING);
+        sqLiteDatabase.execSQL(DROP_BOOKS_TABLE_CREATE);
         sqLiteDatabase.execSQL(CREATE_BOOKS_TABLE);
     }
 
@@ -68,6 +71,7 @@ public class SqlHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_BOOK_TITLE, bookObj.getBookName());
         contentValues.put(COL_BOOK_AUTHOR, bookObj.getAuthorName());
+        contentValues.put(COL_BOOK_RATING, bookObj.getBookRating());
 
         SQLiteDatabase db = this.getWritableDatabase();
         insertStatus = db.insert(TABLE_NAME, null, contentValues) > 0;
@@ -93,6 +97,7 @@ public class SqlHelper extends SQLiteOpenHelper {
                     Book bookObj = new Book();
                     bookObj.bookName = cursor.getString(cursor.getColumnIndex(COL_BOOK_TITLE));
                     bookObj.authorName = cursor.getString(cursor.getColumnIndex(COL_BOOK_AUTHOR));
+                    bookObj.bookRating =  Integer.parseInt(cursor.getString(cursor.getColumnIndex(COL_BOOK_RATING)));
                     bookList.add(bookObj);
 
                 } while (cursor.moveToNext());
